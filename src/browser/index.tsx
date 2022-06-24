@@ -13,6 +13,7 @@ import { hydrate } from "react-dom";
 import ConfigContext from "../components/ConfigContext";
 import { Config } from "../server/config";
 import App from "../App";
+import { Auth0Provider } from "@auth0/auth0-react";
 
 const config = (window as any).__CONFIG__ as Config;
 delete (window as any).__CONFIG__;
@@ -23,7 +24,13 @@ const render = () => {
     <>
       {/* The configuration is the outmost component. This allows us to read the configuration even in the theme */}
       <ConfigContext.Provider value={config}>
-        <App />
+          <Auth0Provider
+              domain={config.app.AUTH0_DOMAIN}
+              clientId={config.app.AUTH0_CLIENT_ID}
+              redirectUri={window.location.origin}
+          >
+            <App />
+          </Auth0Provider>
       </ConfigContext.Provider>
     </>,
     document.getElementById("root"),

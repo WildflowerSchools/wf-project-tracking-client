@@ -21,6 +21,7 @@ module.exports = {
   },
   devServer: {
     hot: true,
+    port: 8080,
     headers: {
       "Access-Control-Allow-Origin": "*",
       "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
@@ -130,6 +131,7 @@ module.exports = {
   output: {
     path: path.join(__dirname, "dist"),
     filename: isOffline ? "[name].js" : "[name].[contenthash:8].js",
+    publicPath: '/',
     crossOriginLoading: "anonymous", // enable cross-origin loading of chunks
   },
 };
