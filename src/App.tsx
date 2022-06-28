@@ -1,27 +1,35 @@
-import "./App.css";
+import "./App.scss";
 
 import * as React from "react";
+import { useAuth0 } from "@auth0/auth0-react";
+import {Route, Routes} from "react-router-dom";
 
-import useConfig from "./components/useConfig";
-import logo from "./logo.svg";
-import LoginButton from "./components/Login";
-import LogoutButton from "./components/Logout";
+import LoginPage from "./pages/Login";
+import Home from "./pages/Home";
+import NavigationBar from "./components/NavigationBar";
+import Loading from "./pages/Loading";
 
 /**
  * Our Web Application
  */
 export default function App() {
-  const config = useConfig();
+  const auth0 = useAuth0();
+
+  const loadingScreen = (<Loading />);
+  const routing = (
+      <>
+        <NavigationBar />
+        <div className="m-2">
+            <Routes>
+                <Route path="/" element={auth0.isAuthenticated ? <Home /> : <LoginPage />} />
+            </Routes>
+        </div>
+      </>
+  )
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <h1 className="App-title">Welcome to {config.app.TITLE}</h1>
-      </header>
-      <p className="App-intro">
-        <LoginButton />
-        <LogoutButton />
-      </p>
+        {auth0.isLoading ? loadingScreen : routing}
     </div>
   );
 }

@@ -109,15 +109,34 @@ module.exports = {
         use: "babel-loader",
       },
       {
-        test: /\.css$/,
-        use: [MiniCssExtractPlugin.loader, "css-loader"],
+        test: /\.(s[ac]ss|css)$/i,
+        use: [
+          // Creates `style` nodes from JS strings
+          process.env.NODE_ENV !== "production"
+              ? "style-loader"
+              : MiniCssExtractPlugin.loader,
+          // Translates CSS into CommonJS
+          "css-loader",
+          // Compiles Sass to CSS
+          {
+            loader: "sass-loader",
+            options: {
+              // Prefer `dart-sass`
+              implementation: require("sass"),
+            },
+          },
+        ],
       },
+      // {
+      //   test: /\.css$/,
+      //   use: [MiniCssExtractPlugin.loader, "css-loader"],
+      // },
       {
         test: /\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$/,
         use: [
           {
             loader: "url-loader",
-            options: { limit: 8192 },
+              // options: { limit: 8192 },
           },
         ],
       },

@@ -27,7 +27,7 @@ module.exports = {
         use: "babel-loader",
       },
       {
-        test: /\.css$/,
+        test: /\.(s[ac]ss|css)$/i,
         use: "null-loader", // No server-side CSS processing
       },
       {
